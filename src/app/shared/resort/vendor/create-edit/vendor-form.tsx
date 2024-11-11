@@ -1,17 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm, Controller, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  vendorFormSchema,
-  CreateVendorInput,
-} from "@/utils/validators/create-vendor.schema";
-import { Loader, Input, Select, Button } from "rizzui";
-import dynamic from "next/dynamic";
-import { parseISO, isValid, formatISO } from "date-fns";
-import { DatePicker } from "@/components/ui/datepicker";
-import { useFormContext } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import { Input, Button } from "rizzui";
+import { CreateVendorInput } from "@/utils/validators/create-vendor.schema";
 
 interface VendorFormProps {
   vendor?: CreateVendorInput;
@@ -36,14 +28,14 @@ export const VendorForm: React.FC<VendorFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <Controller
           name="label"
           control={control}
           render={({ field, fieldState: { error } }) => (
             <Input
               label="Vendor Label"
-              placeholder="Vendor Label"
+              placeholder="Enter Vendor Label"
               {...field}
               error={error?.message}
             />
@@ -55,7 +47,7 @@ export const VendorForm: React.FC<VendorFormProps> = ({
           render={({ field, fieldState: { error } }) => (
             <Input
               label="Dash URL"
-              placeholder="Dash URL"
+              placeholder="Enter Dash URL"
               {...field}
               error={error?.message}
             />

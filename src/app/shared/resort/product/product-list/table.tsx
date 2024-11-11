@@ -115,14 +115,14 @@ export default function ResortRoomTypesTable({ data = [], onEditToggle }: { data
           setCheckedColumns,
           enableDrawerFilter: true,
         }}
-        filterElement={
-          <FilterElement
-            filters={filters}
-            isFiltered={isFiltered}
-            updateFilter={updateFilter}
-            handleReset={handleReset}
-          />
-        }
+        // filterElement={
+        //   <FilterElement
+        //     filters={filters}
+        //     isFiltered={isFiltered}
+        //     updateFilter={updateFilter}
+        //     handleReset={handleReset}
+        //   />
+        // }
         tableFooter={
           <TableFooter
             checkedItems={selectedRowKeys}

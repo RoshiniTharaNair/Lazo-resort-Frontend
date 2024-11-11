@@ -1,5 +1,3 @@
-'use client';
-
 import { useModal } from '@/app/shared/modal-views/use-modal';
 import { CalendarEvent } from '@/types';
 import { PiMapPin, PiXBold } from 'react-icons/pi';
@@ -32,8 +30,10 @@ function DetailsEvents({ event, resorts }: DetailsEventsProps) {
     closeModal();
   }
 
+  const eventBackgroundColor = event.status?.toLowerCase() === 'confirmed' ? 'green' : 'white';
+
   return (
-    <div className="m-auto p-4 md:px-7 md:pb-10 md:pt-6">
+    <div className="m-auto p-4 md:px-7 md:pb-10 md:pt-6" style={{ backgroundColor: eventBackgroundColor }}>
       <div className="mb-6 flex items-center justify-between">
         <Title as="h3" className="text-xl xl:text-2xl">
           Booking Details

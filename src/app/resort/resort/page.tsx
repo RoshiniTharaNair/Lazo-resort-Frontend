@@ -14,9 +14,11 @@ import { useForm, FormProvider } from "react-hook-form";
 import { ResortForm } from "@/app/shared/resort/resort/create-edit/resort-form";
 import { CreateResortInput } from "@/utils/validators/create-resort.schema";
 import { ResortData } from "@/data/resort";
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
+import toast from "react-hot-toast";
 import { Loader } from "rizzui";
+import TabsView from './TabsView';
+
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const metadata: Metadata = {
   title: "Resort | Lazo Resort Admin",
@@ -40,29 +42,23 @@ const pageHeader = {
 };
 
 export default function ResortPage() {
-  const [selectedResort, setSelectedResort] = useState<
-    CreateResortInput | undefined
-  >(undefined);
-  // const [geo, setGeo] = useState([]);
-  const [resort, setResort] = useState(ResortData);
+  const [selectedResort, setSelectedResort] = useState<CreateResortInput | undefined>(undefined);
+  const [resorts, setResorts] = useState(ResortData);
   const [isLoading, setIsLoading] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false); // State to track edit mode
+  const [isEditMode, setIsEditMode] = useState(false);
   const methods = useForm({
     defaultValues: defaultValues(),
   });
 
   const toggleDrawer = (resort?: CreateResortInput) => {
     setSelectedResort(resort);
-    setIsEditMode(!!resort); // Set edit mode if vendor is provided
+    setIsEditMode(!!resort);
     setIsDrawerOpen(true);
   };
 
   const handleFormSubmit = async (data: CreateResortInput) => {
     try {
-      console.log("Handle Form Submit");
-      console.log(data);
-
       const url = isEditMode
         ? `${apiUrl}/resorts/update/${data.resortIdentifier}`
         : `${apiUrl}/resorts/create`;
@@ -77,42 +73,47 @@ export default function ResortPage() {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        console.error("Error Response:", errorMessage);
+        throw new Error("Network response was not ok");
+      }
 
-      console.log(`Resort ${isEditMode ? "updated" : "created"} successfully`);
-      // setIsDrawerOpen(false);
-      // Optionally, refresh your Resort list here
+      setIsDrawerOpen(false);
+      fetchResorts(); // Refresh the resorts list
+      toast.success(`Resort ${isEditMode ? "updated" : "created"} successfully!`);
     } catch (error) {
-      console.error(
-        `Failed to ${isEditMode ? "update" : "create"} Resort:`,
-        error
-      );
+      console.error(`Failed to ${isEditMode ? "update" : "create"} Resort:`, error);
+      toast.error(`Failed to ${isEditMode ? "update" : "create"} Resort.`);
     }
   };
 
-  // Fetch Resorts data from API
+  const fetchResorts = async () => {
+    setIsLoading(true);
+    const response = await fetch(`${apiUrl}/resorts/view`);
+    if (response.ok) {
+      const data = await response.json();
+      setResorts(data);
+      setIsLoading(false);
+    } else {
+      console.error("Failed to fetch Resorts");
+      toast.error("Failed to load Resorts.");
+    }
+  };
+
   useEffect(() => {
-    const fetchResorts = async () => {
-      setIsLoading(true);
-      const response = await fetch(`${apiUrl}/resorts/view`);
-      if (response.ok) {
-        const data = await response.json();
-        console.log("resorts data >>", data);
-        
-        setResort([...data]); // Ensure a new reference is set
-        setIsLoading(false);
-      } else {
-        console.error("Failed to fetch Resorts");
-      }
-    };
     fetchResorts();
   }, []);
- 
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
-          <ExportButton data={resort} fileName="Resort" header="rst_lbl, reservation_cont,services_cont, support_cont, reservation_email, services_email, support_email, rst_desc " />
+          <ExportButton
+            data={resorts}
+            fileName="Resort"
+            header="rst_lbl, reservation_cont,services_cont, support_cont, reservation_email, services_email, support_email, rst_desc"
+          />
           <Button onClick={() => toggleDrawer()} className="w-full @lg:w-auto">
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
             Add Resort
@@ -124,7 +125,7 @@ export default function ResortPage() {
           <Loader variant="spinner" />
         </div>
       ) : (
-      <ResortTable data={resort} onEditToggle={toggleDrawer} />
+        <TabsView toggleDrawer={toggleDrawer} />
       )}
       <FormProvider {...methods}>
         <Drawer

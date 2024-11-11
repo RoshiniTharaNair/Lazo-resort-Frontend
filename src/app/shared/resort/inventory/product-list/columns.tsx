@@ -103,6 +103,15 @@ type ColumnsProps = {
   roomTypes: RoomTypeData[];
 };
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 export const getColumns = ({
   data,
   sortConfig,
@@ -173,9 +182,7 @@ export const getColumns = ({
     key: "effectiveDate",
     width: 150,
     render: (effectiveDate: string) => (
-      <Text className="text-sm">
-        {new Date(effectiveDate).toLocaleDateString()}
-      </Text>
+      <Text className="text-sm">{formatDate(effectiveDate)}</Text>
     ),
   },
   {

@@ -9,6 +9,7 @@ import { Button } from "rizzui";
 import { routes } from "@/config/routes";
 import toast from "react-hot-toast";
 import CreateEditBookings from "@/app/shared/resort/bookings/create-edit";
+
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type IdentifierType = number | { label: string; value: number };
@@ -35,7 +36,7 @@ interface BookingData {
 // Default values for creating new bookings or handling uninitialized states
 const defaultBookingData: BookingData = {
   bookingIdentifier: 0,
-  resortIdentifier: { label: 'Default Resort', value: 0 }, // Default or fetched value
+  resortIdentifier: { label: 'Default Resort', value: 0 },
   recDate: new Date(),
   empCode: 'defaultCode',
   customerIdentifier: 0,
@@ -51,6 +52,8 @@ const defaultBookingData: BookingData = {
   primaryEmail: '',
   specialRequest: '',
 };
+
+// Define the Props type directly for the component
 type Props = {
   params: { slug: string };
 };
@@ -62,25 +65,13 @@ const metadata: Metadata = {
 const pageHeader = {
   title: "Edit Booking",
   breadcrumb: [
-    {
-      href: routes.resort.dashboard,
-      name: "Lazo resort admin",
-    },
-    {
-      href: routes.resort.createBooking,
-      name: "Booking",
-    },
-    {
-      name: "Edit",
-    },
+    { href: routes.resort.dashboard, name: "Lazo resort admin" },
+    { href: routes.resort.createBooking, name: "Booking" },
+    { name: "Edit" },
   ],
 };
 
-export default function EditBookingPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default function EditBookingPage({ params }: Props) {
   const [booking, setBooking] = useState<BookingData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -90,10 +81,7 @@ export default function EditBookingPage({
         const response = await fetch(`${apiUrl}/bookings/update/${params.slug}`);
         if (response.ok) {
           const data = await response.json();
-          setBooking({
-            ...defaultBookingData,
-            ...data,
-          });
+          setBooking({ ...defaultBookingData, ...data });
         } else {
           console.error("Failed to fetch booking data");
         }
@@ -103,17 +91,14 @@ export default function EditBookingPage({
         setIsLoading(false);
       }
     };
-  
+
     fetchData();
   }, [params.slug]);
 
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
-        <Link
-          href={routes.resort.createBooking}
-          className="mt-4 w-full @lg:mt-0 @lg:w-auto"
-        >
+        <Link href={routes.resort.createBooking} className="mt-4 w-full @lg:mt-0 @lg:w-auto">
           <Button as="span" className="w-full @lg:w-auto">
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
             Add Booking

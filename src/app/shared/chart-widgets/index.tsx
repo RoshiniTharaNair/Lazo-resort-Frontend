@@ -20,8 +20,9 @@ import { PiPlusBold } from "react-icons/pi";
 import { Button } from "rizzui";
 import ProfitWidget from "../resort/dashboard/profit-widget";
 import RoomAndInventoryGraph from "../resort/dashboard/promotional-sales";
+import { Resort } from '@/types/BookingTypes';
 
-export default function ChartWidgets() {
+export default function ChartWidgets({ selectedResort }: { selectedResort: Resort | null }) {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 3xl:gap-8">
       <WelcomeBanner
@@ -48,25 +49,14 @@ export default function ChartWidgets() {
         contentClassName="@2xl:max-w-[calc(100%-340px)]"
         className="border border-muted bg-gray-0 pb-8 @4xl:col-span-2 @7xl:col-span-12 lg:pb-9 dark:bg-gray-100/30"
       >
-        <Link href={routes.resort.booking} className="inline-flex">
+        <Link href={routes.resort.eventCalendar} className="inline-flex">
           <Button as="span" className="h-[38px] shadow md:h-10">
             <PiPlusBold className="me-1 h-4 w-4" /> Start Booking
           </Button>
         </Link>
       </WelcomeBanner>
-      {/* <SimpleLineChart /> */}
-      {/* <CustomizedDotLineChart /> */}
-      {/* <SimpleBarChart /> */}
-      {/* <MixBarChart /> */}
-      {/* <CustomShapeBarChart /> */}
-      {/* <BrushBarChart /> */}
-      {/* <SimpleAreaChart /> */}
-      {/* <StackedAreaChart /> */}
-      {/* <SimpleRadarChart /> */}
-      {/* <RadialBarChart /> */}
-      {/* <CustomizedMixChart className="lg:col-span-2" /> */}
-      <ProfitWidget/>
-      <RoomAndInventoryGraph/>
+      <ProfitWidget selectedResort={selectedResort} />
+      <RoomAndInventoryGraph />
       <RoomCategoryInventorySimpleBarChart />
     </div>
   );

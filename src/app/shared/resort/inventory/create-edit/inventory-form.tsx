@@ -89,7 +89,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <Controller
               name="resortIdentifier"
               control={control}
@@ -101,6 +101,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                     label="Resort"
                     options={resortOptions}
                     value={selectedOption}
+                    placeholder="Select Resort"
                     onChange={(selectedOption) => field.onChange((selectedOption as ResortOption)?.value)}
                     clearable={false}
                     error={error?.message}
@@ -126,8 +127,8 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                 return (
                   <DatePicker
                     inputProps={{ label: "Effective Date" }}
-                    placeholderText="YYYY-MM-DD"
-                    dateFormat="yyyy-MM-dd" 
+                    placeholderText="Enter Effective Date (YYYY-MM-DD)"
+                    dateFormat="yyyy-MM-dd"
                     selected={isValidDate ? validDateValue : null}
                     onChange={(date) => {
                       const formattedDate =
@@ -136,7 +137,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                           : "";
                       onChange(formattedDate);
                     }}
-                    onBlur={onBlur} 
+                    onBlur={onBlur}
                   />
                 );
               }}
@@ -152,6 +153,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                     label="Room Class"
                     options={roomCategoryOptions}
                     value={selectedOption}
+                    placeholder="Select Room Class"
                     onChange={(selectedOption) => field.onChange((selectedOption as RoomCategoryOption).value)}
                     clearable={false}
                     error={error?.message}
@@ -168,6 +170,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                 <Input
                   label="Available Count"
                   type="number"
+                  placeholder="Enter Available Count"
                   {...field}
                   error={error?.message}
                 />
@@ -180,6 +183,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                 <Input
                   label="Maximum Occupancy"
                   type="number"
+                  placeholder="Enter Maximum Occupancy"
                   {...field}
                   error={error?.message}
                 />
@@ -192,6 +196,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                 <Input
                   label="Base Price"
                   type="number"
+                  placeholder="Enter Base Price"
                   {...field}
                   error={error?.message}
                 />
@@ -204,6 +209,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
                 <Input
                   label="Base Points"
                   type="number"
+                  placeholder="Enter Base Points"
                   {...field}
                   error={error?.message}
                 />
@@ -213,7 +219,12 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
               name="gst"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <Input label="GST" {...field} error={error?.message} />
+                <Input
+                  label="GST"
+                  placeholder="Enter GST (%)"
+                  {...field}
+                  error={error?.message}
+                />
               )}
             />
             <Controller
@@ -222,7 +233,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
               render={({ field, fieldState: { error } }) => (
                 <Input
                   label="Discount"
-                  placeholder="Optional"
+                  placeholder="Enter Discount (Optional)"
                   {...field}
                   error={error?.message}
                 />

@@ -2,13 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useForm, Controller, Control, FieldErrors } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Button, Tab, Select } from "rizzui";
-import {
-  resortSchema,
-  CreateResortInput,
-} from "@/utils/validators/create-resort.schema";
-import { ResortData } from "@/data/resort";
+import { CreateResortInput } from "@/utils/validators/create-resort.schema";
 import { DatePicker } from "@/components/ui/datepicker";
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -40,7 +35,6 @@ export const ResortForm: React.FC<ResortFormProps> = ({
     setValue,
     getValues,
   } = useForm<CreateResortInput>({
-    resolver: zodResolver(resortSchema),
     defaultValues: resort || {}, // Fallback to empty object if no resort is provided
   });
 
@@ -88,22 +82,22 @@ export const ResortForm: React.FC<ResortFormProps> = ({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <ResortSection control={control} errors={errors} geoOptions={geoOptions} />
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <DocumentSection control={control} errors={errors} />
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <SpocSection control={control} errors={errors} />
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <TagsSection control={control} errors={errors} />
             </div>
           </Tab.Panel>
@@ -161,6 +155,7 @@ const ResortSection: React.FC<{
             <Select
               label="Geo Location"
               options={geoOptions}
+              placeholder="Select Geo Location"
               value={selectedOption}
               onChange={(selectedOption) => field.onChange((selectedOption as GeoOption)?.value)}
               error={error?.message}

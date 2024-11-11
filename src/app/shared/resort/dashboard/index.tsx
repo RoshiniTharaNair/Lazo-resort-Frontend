@@ -13,8 +13,32 @@ import StackedAreaChart from "../../chart-widgets/stacked-area-chart";
 import SimpleRadarChart from "../../chart-widgets/simple-radar-chart";
 import CustomizedMixChart from "../../chart-widgets/customized-mix-chart";
 import RadialBarChart from "../../chart-widgets/radial-bar-chart";
+import { useState, useEffect } from 'react';
+import { Resort } from '@/types/BookingTypes';
+
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function ResortDashboard() {
+  const [resorts, setResorts] = useState<Resort[]>([]);
+  const [selectedResort, setSelectedResort] = useState<Resort | null>(null);
+
+  useEffect(() => {
+    const fetchResorts = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/resorts/view`);
+        const data: Resort[] = await response.json();
+        setResorts(data);
+        if (data.length > 0) {
+          setSelectedResort(data[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching resorts:', error);
+      }
+    };
+
+    fetchResorts();
+  }, []);
+
   return (
     <div className="@container">
       <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
@@ -51,13 +75,15 @@ export default function ResortDashboard() {
         </WelcomeBanner>
 
         {/* ProfitWidget and PromotionalSales each take up 6 columns, making them side by side */}
-        <ProfitWidget className="h-[464px] @sm:h-[520px] @7xl:col-span-6 @7xl:row-start-2" />
+        <ProfitWidget selectedResort={selectedResort} />
         <PromotionalSales className="@4xl:col-span-2 @7xl:col-span-6 @7xl:row-start-2" />
-        <RoomCategoryInventorySimpleBarChart/>
-        <StackedAreaChart />
-      <SimpleRadarChart />
-      <RadialBarChart />
-      <CustomizedMixChart className="lg:col-span-2" />
+        
+        {/* Additional charts */}
+        <RoomCategoryInventorySimpleBarChart className="@7xl:col-span-6" />
+        <StackedAreaChart className="@7xl:col-span-6" />
+        <SimpleRadarChart className="@7xl:col-span-6" />
+        <RadialBarChart className="@7xl:col-span-6" />
+        <CustomizedMixChart className="lg:col-span-2 @7xl:col-span-6" />
       </div>
     </div>
   );

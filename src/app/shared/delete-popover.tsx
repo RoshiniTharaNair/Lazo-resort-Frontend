@@ -30,6 +30,11 @@ export default function DeletePopover({
     bookings: `${apiUrl}/bookings/delete/${id}`,
     geo: `${apiUrl}/geos/delete/${id}`,
     resort: `${apiUrl}/resorts/delete/${id}`,
+    employees: `${apiUrl}/employee/delete/${id}`,
+    coupons: `${apiUrl}/coupon/delete/${id}`,
+    memberships: `${apiUrl}/membership/delete/${id}`,
+    profiles: `${apiUrl}/customers/delete/${id}`,
+    voiddate: `${apiUrl}/voidDate/delete/${id}`,
   };
 
   const handleDelete = async () => {

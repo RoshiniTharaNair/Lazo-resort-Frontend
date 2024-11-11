@@ -33,12 +33,10 @@ export const GeoForm: React.FC<GeoFormProps> = ({
     defaultValues: vendor,
   });
   const [geoLocationData, setGeoLocationData] = useState<
-  { label: string; value: string }[]
+    { label: string; value: string }[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [value, setValue] = useState(null);
-  
-  
+
   useEffect(() => {
     setIsLoading(true);
     const transformedData = GeoLocationData.map((location) => ({
@@ -46,146 +44,100 @@ export const GeoForm: React.FC<GeoFormProps> = ({
       value: location.postalCode,
     }));
     setGeoLocationData(transformedData);
-    // setValue(transformedData[0]); 
     setIsLoading(false);
     console.log(transformedData);
   }, []);
-  // const [value, setValue] = useState(transformedData[0]);
-  
+
   const { control, handleSubmit } = formMethods;
-  
+
   return (
     <>
-    {isLoading ? (
-      <div className="flex justify-center items-center h-full">
-      <Loader variant="spinner" />
-      </div>
-    ) : (
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
-      <Controller
-      name="country"
-      control={control}
-      render={({ field, fieldState: { error } }) => (
-        <Input
-        label="Country"
-        placeholder="Country"
-        {...field}
-        error={error?.message}
-        />
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <Loader variant="spinner" />
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            <Controller
+              name="country"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  label="Country"
+                  placeholder="Enter Country"
+                  {...field}
+                  error={error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="postalCode"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  label="Postal Code"
+                  placeholder="Enter Postal Code"
+                  type="text"
+                  {...field}
+                  error={error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="state"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  label="State"
+                  placeholder="Enter State"
+                  {...field}
+                  error={error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="city"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  label="City"
+                  placeholder="Enter City"
+                  {...field}
+                  error={error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="district"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  label="District"
+                  placeholder="Enter District"
+                  {...field}
+                  error={error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="town"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  label="Town"
+                  placeholder="Enter Town"
+                  {...field}
+                  error={error?.message}
+                />
+              )}
+            />
+          </div>
+          <Button type="submit" className="mt-4">
+            {isEditMode ? "Update Geo Location" : "Create Geo Location"}
+          </Button>
+        </form>
       )}
-      />
-      {/* <Controller
-      name="postalCode"
-      control={control}
-      render={({ field, fieldState: { error } }) => (
-        <Input
-        label="postalCode"
-        placeholder="postalCode"
-        {...field}
-        error={error?.message}
-        />
-      )}
-    /> */}
-    <Controller
-    name="postalCode"
-    control={control}
-    render={({ field, fieldState: { error } }) => (
-      <Input
-      label="postalCode"
-      placeholder="Enter postalCode"
-      type="text" // Optional, specify if you want only numbers
-      {...field}
-      error={error?.message}
-      />
-    )}
-    />
-    {/* <Controller
-    name="postalCode"
-    control={control}
-    render={({ field, fieldState: { error } }) => (
-      <Select
-      label="postalCode"
-      options={geoLocationData}
-      value={value}
-      onChange={setValue}
-      clearable={value !== null}
-      onClear={() => setValue(null)}
-      {...field}
-      error={error?.message}
-    /> */}
-    {/* <Controller
-    name="postalCode"
-    control={control}
-    render={({ field, fieldState: { error } }) => (
-      <Select // Step 3: Change to Select component
-      label="postalCode"
-      options={[
-        { label: "Select...", value: "" }, // Add initial "Select..." option
-        ...GeoLocationData.map(location => ({
-          label: location.postalCode,
-          value: location.postalCode,
-        }))
-      ]}
-      {...field}
-      error={error?.message}
-      />
-    )}
-  /> */}
-  <Controller
-  name="state"
-  control={control}
-  render={({ field, fieldState: { error } }) => (
-    <Input
-    label="State"
-    placeholder="State"
-    {...field}
-    error={error?.message}
-    />
-  )}
-  />
-  <Controller
-  name="city"
-  control={control}
-  render={({ field, fieldState: { error } }) => (
-    <Input
-    label="City"
-    placeholder="City"
-    {...field}
-    error={error?.message}
-    />
-  )}
-  />
-  <Controller
-  name="district"
-  control={control}
-  render={({ field, fieldState: { error } }) => (
-    <Input
-    label="Dictrict"
-    placeholder="Dictrict"
-    {...field}
-    error={error?.message}
-    />
-  )}
-  />
-  <Controller
-  name="town"
-  control={control}
-  render={({ field, fieldState: { error } }) => (
-    <Input
-    label="Town"
-    placeholder="Town"
-    {...field}
-    error={error?.message}
-    />
-  )}
-  />
-  </div>
-  <Button type="submit" className="mt-4">
-  {isEditMode ? "Update Geo location" : "Create Geo location"}
-  </Button>
-  </form>
-)}
-</>
-);
+    </>
+  );
 };

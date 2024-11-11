@@ -62,7 +62,7 @@ export const GeoForm: React.FC<GeoFormProps> = ({
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <Controller
               name="country"
               control={control}

@@ -35,7 +35,9 @@ export default function useEventCalendar() {
           specialRequest: event.specialRequest || '',
           status: event.status || '',
           resortIdentifier: event.resortIdentifier,
+          color: event.status.toLowerCase() === 'confirmed' ? 'green' : 'default', // Add color based on status
         }));
+        
         setEvents(formattedData);
         setFilteredEvents(formattedData);
       } catch (error) {

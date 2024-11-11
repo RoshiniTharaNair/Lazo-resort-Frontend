@@ -119,6 +119,15 @@ type Columns = {
   onEditToggle: (booking: any) => void;
 };
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 export const getColumns = ({
   data,
   sortConfig,
@@ -149,7 +158,7 @@ export const getColumns = ({
   //   dataIndex: "recDate",
   //   key: "recDate",
   //   render: (date: string) => (
-  //     <Text className="text-sm">{new Date(date).toLocaleDateString()}</Text>
+  //     <Text className="text-sm">{formatDate(date)}</Text>
   //   ),
   // },
   {
@@ -186,22 +195,28 @@ export const getColumns = ({
     title: <HeaderCell title="Base Price" />,
     dataIndex: "base",
     key: "base",
-    render: (base: number) => (
-      <Text className="text-sm">₹{base.toFixed(2)}</Text>
+    render: (base: number | null | undefined) => (
+      <Text className="text-sm">
+        {base != null ? `₹${base.toFixed(2)}` : "N/A"}
+      </Text>
     ),
-  },
+  },  
   {
     title: <HeaderCell title="GST" />,
     dataIndex: "gst",
     key: "gst",
-    render: (gst: number) => <Text className="text-sm">₹{gst.toFixed(2)}</Text>,
-  },
+    render: (gst: number | null | undefined) => (
+      <Text className="text-sm">
+        {typeof gst === "number" ? `₹${gst.toFixed(2)}` : "N/A"}
+      </Text>
+    ),
+  },    
   {
     title: <HeaderCell title="Check-In Date" />,
     dataIndex: "checkInDate",
     key: "checkInDate",
     render: (date: string) => (
-      <Text className="text-sm">{new Date(date).toLocaleDateString()}</Text>
+      <Text className="text-sm">{formatDate(date)}</Text>
     ),
   },
   {
@@ -209,7 +224,7 @@ export const getColumns = ({
     dataIndex: "checkOutDate",
     key: "checkOutDate",
     render: (date: string) => (
-      <Text className="text-sm">{new Date(date).toLocaleDateString()}</Text>
+      <Text className="text-sm">{formatDate(date)}</Text>
     ),
   },
   {

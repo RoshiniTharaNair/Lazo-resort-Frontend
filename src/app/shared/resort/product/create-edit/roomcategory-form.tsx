@@ -36,31 +36,33 @@ export const RoomCategoryForm: React.FC<RoomCategoryFormProps> = ({
         title={`${isEditMode ? "Edit" : "Add"} Room Type`}
         description="Fill in the details of the room type."
       >
-        <Controller
-          name="roomType"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <Input
-              label="Room Type"
-              placeholder="Enter room type"
-              {...field}
-              error={error?.message}
-            />
-          )}
-        />
-        <Controller
-          name="maxOccupancy"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <Input
-              label="Maximum Occupancy"
-              placeholder="Enter maximum occupancy"
-              type="number"
-              {...field}
-              error={error?.message}
-            />
-          )}
-        />
+        <div className="grid grid-cols-3 gap-4">  {/* Added grid layout for 3 elements per row */}
+          <Controller
+            name="roomType"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                label="Room Type"
+                placeholder="Enter room type"
+                {...field}
+                error={error?.message}
+              />
+            )}
+          />
+          <Controller
+            name="maxOccupancy"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                label="Maximum Occupancy"
+                placeholder="Enter maximum occupancy"
+                type="number"
+                {...field}
+                error={error?.message}
+              />
+            )}
+          />
+        </div>
         <Button type="submit" className="mt-4">
           {isEditMode ? "Update Room Type" : "Create Room Type"}
         </Button>

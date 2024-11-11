@@ -1,5 +1,5 @@
 export type DocumentType = {
-  docId: string;
+  doc_id: string;
   doc_type: string;
   doc_url: string;
   doc_effdate: string;
@@ -56,7 +56,7 @@ export const ResortData: ResortType[] = [
     careers_email: "careers@seasideret.com",
     description: "A luxurious beachfront resort.",
     Document: {
-      docId: "DOC001",
+      doc_id: "DOC001",
       doc_type: "PDF",
       doc_url: "https://docs.seasideret.com/001",
       doc_effdate: "2023-04-01",
@@ -92,7 +92,7 @@ export const ResortData: ResortType[] = [
     careers_email: "careers@seasideret.com",
     description: "Deep in the tranquil woods.",
     Document: {
-      docId: "DOC004",
+      doc_id: "DOC001",
       doc_type: "DOCX",
       doc_url: "https://docs.forestlod.com/004",
       doc_effdate: "2023-04-04",
@@ -124,11 +124,11 @@ export const ResortData: ResortType[] = [
     support_cont: "915678901236",
     reservation_email: "reserve@lakecab.com",
     services_email: "services@lakecab.com",
-    careers_email: "careers@lakecab.com",
     support_email: "support@lakecab.com",
+    careers_email: "careers@lakecab.com",
     description: "Serene lake views.",
     Document: {
-      docId: "DOC005",
+      doc_id: "DOC001",
       doc_type: "PDF",
       doc_url: "https://docs.lakecab.com/005",
       doc_effdate: "2023-04-05",

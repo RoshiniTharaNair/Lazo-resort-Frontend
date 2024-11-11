@@ -63,14 +63,17 @@ export const PriceForm: React.FC<PriceFormProps> = ({
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <FormGroup title={`${isEditMode ? "Edit" : "Add"} Price`} description="Enter the price details below.">
+          <FormGroup
+            title={`${isEditMode ? "Edit" : "Add"} Price`}
+            description="Enter the price details below."
+          >
             <Controller
               name="price"
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <Input
                   label="Price"
-                  placeholder="Price"
+                  placeholder="Enter Price"
                   {...field}
                   error={error?.message}
                 />
@@ -80,14 +83,19 @@ export const PriceForm: React.FC<PriceFormProps> = ({
               name="resortIdentifier"
               control={control}
               render={({ field, fieldState: { error } }) => {
-                const selectedOption = resortOptions.find((option) => option.value === field.value) || null;
+                const selectedOption = resortOptions.find(
+                  (option) => option.value === field.value
+                ) || null;
 
                 return (
                   <Select
                     label="Resort"
+                    placeholder="Select Resort"
                     options={resortOptions}
                     value={selectedOption}
-                    onChange={(selectedOption) => field.onChange((selectedOption as ResortOption)?.value)}
+                    onChange={(selectedOption) =>
+                      field.onChange((selectedOption as ResortOption)?.value)
+                    }
                     clearable={false}
                     error={error?.message}
                     className="relative z-[9999]" // Adjusted higher z-index

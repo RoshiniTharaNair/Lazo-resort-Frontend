@@ -17,21 +17,21 @@ const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function RoomAndInventoryGraph({ className }: { className?: string }) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [resortRoomTypes, setResortRoomTypes] = useState<any[]>([]);
+  const [bookingRooms, setBookingRooms] = useState<any[]>([]);
   const [inventories, setInventories] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchResortRoomTypes();
+    fetchBookingRooms();
     fetchInventories();
   }, [selectedDate]); // Ensure it runs when the selectedDate changes
 
-  const fetchResortRoomTypes = async () => {
+  const fetchBookingRooms = async () => {
     try {
-      const response = await fetch(`${apiUrl}/resortRoomType/view`);
+      const response = await fetch(`${apiUrl}/bookingroom/view/`);
       const data = await response.json();
-      setResortRoomTypes(data);
+      setBookingRooms(data);
     } catch (error) {
-      console.error('Error fetching resort room types:', error);
+      console.error('Error fetching booking rooms:', error);
     }
   };
 
@@ -45,16 +45,21 @@ export default function RoomAndInventoryGraph({ className }: { className?: strin
     }
   };
 
-  const filteredResortRoomTypes = resortRoomTypes.filter(
-    (type) => new Date(type.createdAt).toDateString() === selectedDate.toDateString()
-  );
-  const filteredInventories = inventories.filter(
-    (inventory) => new Date(inventory.createdAt).toDateString() === selectedDate.toDateString()
+  const filteredBookingRooms = bookingRooms.filter(
+    (room) => new Date(room.createdAt).toDateString() === selectedDate.toDateString()
   );
 
+  const filteredInventories = inventories.filter(
+    (inventory) => new Date(inventory.effectiveDate).toDateString() === selectedDate.toDateString()
+  );
+
+  // Calculate the sum of avlCount (inventory) and the sum of numberOfRooms (rooms booked) on the selected day
+  const totalInventory = filteredInventories.reduce((sum, inv) => sum + inv.avlCount, 0);
+  const totalRoomsBooked = filteredBookingRooms.reduce((sum, room) => sum + room.numberOfRooms, 0);
+
   const data = [
-    { name: 'Resort Room Types', count: filteredResortRoomTypes.length },
-    { name: 'Inventories', count: filteredInventories.length },
+    { name: 'Inventory', count: totalInventory },
+    { name: 'Rooms Booked', count: totalRoomsBooked },
   ];
 
   const generateIntegerTicks = (maxValue: number) => {
@@ -65,21 +70,21 @@ export default function RoomAndInventoryGraph({ className }: { className?: strin
     return ticks;
   };
 
-  const maxValue = Math.max(...data.map((d) => d.count));
+  const maxValue = Math.max(...data.map((d) => d.count), 0);
 
   return (
     <WidgetCard
-      title={'Resort Room Types and Inventories'}
+      title={'Day Sales'}
       action={
         <div className="relative z-10">
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date: Date) => setSelectedDate(date)}
-          dateFormat="MMM dd, yyyy"
-          placeholderText="Select Date"
-          showPopperArrow={false}
-          className="w-36 relative z-10"
-        />
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date: Date) => setSelectedDate(date)}
+            dateFormat="MMM dd, yyyy"
+            placeholderText="Select Date"
+            showPopperArrow={false}
+            className="w-36 relative z-10"
+          />
         </div>
       }
       className={cn('@container', className)}
@@ -96,7 +101,7 @@ export default function RoomAndInventoryGraph({ className }: { className?: strin
             />
             <Tooltip />
             <Legend />
-            <Bar dataKey="count" fill="#8884d8" />
+            <Bar dataKey="count" fill="#8884d8" name="Day Sales" />
           </BarChart>
         </ResponsiveContainer>
       </div>

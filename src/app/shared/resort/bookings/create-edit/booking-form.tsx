@@ -93,7 +93,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
         const resortResponse = await fetch(`${apiUrl}/resorts/view`);
         const customerResponse = await fetch(`${apiUrl}/customers/view`);
         const vendorResponse = await fetch(`${apiUrl}/vendors/view`);
-        const employeeResponse = await fetch(`${apiUrl}/employee/getEmployee`);
+        const employeeResponse = await fetch(`${apiUrl}/employee/view`);
 
         const [resorts, customers, vendors, employees]: [Resort[], Customer[], Vendor[], Employee[]] = await Promise.all([
           resortResponse.ok ? resortResponse.json() : Promise.reject("Failed to fetch resorts"),
@@ -144,7 +144,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
             title={`${isEditMode ? "Edit" : "Add"} Booking`}
             description="Enter the Bookings below."
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <Controller
                 name="recDate"
                 control={control}
@@ -165,7 +165,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 control={control}
                 render={({ field }) => (
                   <DatePicker
-                    inputProps={{ label: "Check-In Date" }}
+                    inputProps={{ label: "Check-In Date", placeholder: "YYYY-MM-DD" }}
                     selected={field.value ? new Date(field.value) : null}
                     onChange={(date) => field.onChange(date)}
                     dateFormat="yyyy-MM-dd"
@@ -177,7 +177,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 control={control}
                 render={({ field }) => (
                   <DatePicker
-                    inputProps={{ label: "Check-Out Date" }}
+                    inputProps={{ label: "Check-Out Date", placeholder: "YYYY-MM-DD" }}
                     selected={field.value ? new Date(field.value) : null}
                     onChange={(date) => field.onChange(date)}
                     dateFormat="yyyy-MM-dd"
@@ -190,7 +190,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 render={({ field, fieldState: { error } }) => (
                   <Input
                     label="Transaction Reference"
-                    placeholder="Transaction Reference"
+                    placeholder="Enter Transaction Reference"
                     {...field}
                     error={error?.message}
                   />
@@ -202,7 +202,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 render={({ field, fieldState: { error } }) => (
                   <Input
                     label="Payment Mode"
-                    placeholder="Payment Mode"
+                    placeholder="Enter Payment Mode"
                     {...field}
                     error={error?.message}
                   />
@@ -214,7 +214,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 render={({ field, fieldState: { error } }) => (
                   <Input
                     label="Base Price"
-                    placeholder="Base Price"
+                    placeholder="Enter Base Price"
                     type="number"
                     {...field}
                     error={error?.message}
@@ -227,7 +227,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 render={({ field, fieldState: { error } }) => (
                   <Input
                     label="GST"
-                    placeholder="GST (%)"
+                    placeholder="Enter GST (%)"
                     type="number"
                     {...field}
                     error={error?.message}
@@ -240,7 +240,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 render={({ field, fieldState: { error } }) => (
                   <Input
                     label="Primary Contact"
-                    placeholder="Primary Contact"
+                    placeholder="Enter Primary Contact Number"
                     {...field}
                     error={error?.message}
                   />
@@ -252,7 +252,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 render={({ field, fieldState: { error } }) => (
                   <Input
                     label="Primary Email"
-                    placeholder="Primary Email"
+                    placeholder="Enter Primary Email"
                     {...field}
                     error={error?.message}
                   />
@@ -264,7 +264,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 render={({ field, fieldState: { error } }) => (
                   <Input
                     label="Special Request"
-                    placeholder="Special Request"
+                    placeholder="Enter Special Request"
                     {...field}
                     error={error?.message}
                   />
@@ -280,6 +280,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       label="Resort"
                       options={resortOptions}
                       value={selectedOption}
+                      placeholder="Select Resort"
                       onChange={(selectedOption) => field.onChange((selectedOption as ResortOption)?.value)}
                       clearable={false}
                       error={error?.message}
@@ -299,6 +300,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       label="Customer"
                       options={customerOptions}
                       value={selectedOption}
+                      placeholder="Select Customer"
                       onChange={(selectedOption) => field.onChange((selectedOption as CustomerOption)?.value)}
                       clearable={false}
                       error={error?.message}
@@ -318,6 +320,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       label="Vendor"
                       options={vendorOptions}
                       value={selectedOption}
+                      placeholder="Select Vendor"
                       onChange={(selectedOption) => field.onChange((selectedOption as VendorOption)?.value)}
                       clearable={false}
                       error={error?.message}
@@ -337,6 +340,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       label="Employee"
                       options={employeeOptions}
                       value={selectedOption}
+                      placeholder="Select Employee"
                       onChange={(selectedOption) => field.onChange((selectedOption as EmployeeOption).value)}
                       clearable={false}
                       error={error?.message}
@@ -355,6 +359,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                   value={field.value}
                   onChange={field.onChange}
                   label="Comments"
+                  placeholder="Enter Comments"
                 />
               )}
             />

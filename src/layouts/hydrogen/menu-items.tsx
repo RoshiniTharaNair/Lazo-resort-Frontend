@@ -49,6 +49,15 @@ import {
   PiHandshake,
   PiMapPinLine,
   PiBuildingsFill,
+  PiUsers,
+  PiUserGear,
+  PiCalendarCheckThin,
+  PiTagThin,
+  PiFolderUser,
+  PiUserFocus,
+  PiGifThin,
+  PiShieldStarThin,
+  PiBookBookmarkBold
 } from "react-icons/pi";
 
 // Note: do not add href in the label object, it is rendering as label
@@ -86,8 +95,21 @@ export const menuItems = [
   },
   {
     name: "Special rates",
-    href: routes.resort.pricing,
+    href: routes.resort.voidDate,
     icon: <PiCurrencyCircleDollarFill />,
+  },
+  {
+    name: "Customers",
+  },
+  {
+    name: "Profiles",
+    href: routes.resort.profiles,
+    icon: <PiFolderUser />,
+  },
+  {
+    name: "Guests",
+    href: routes.resort.guests,
+    icon: <PiUserFocus />,
   },
   {
     name: "CRS",
@@ -95,12 +117,12 @@ export const menuItems = [
   {
     name: "Booking",
     href: routes.resort.booking,
-    icon: <PiCalendarCheckLight />,
+    icon: <PiBookBookmarkBold />,
   },
   {
     name: "Booking Calendar",
     href: routes.resort.eventCalendar,
-    icon: <PiCalendarCheckLight />,
+    icon: <PiCalendarCheckThin />,
   },
   {
     name: "Setup",
@@ -114,6 +136,33 @@ export const menuItems = [
     name: "Vendor",
     href: routes.resort.vendor,
     icon: <PiHandshake />,
+  },
+  {
+    name: "Complements",
+    href: routes.resort.complements,
+    icon: <PiGifThin />,
+  },
+  {
+    name: "Promotions",
+  },
+  {
+    name: "Membership",
+    href: routes.resort.memberships,
+    icon: <PiShieldStarThin />,
+  },
+  {
+    name: "Coupons",
+    href: routes.resort.coupons,
+    icon: <PiTagThin />,
+  },
+  {
+    name: "Human Resource",
+    icon: <PiUserGear />,
+  },
+  {
+    name: "Employees",
+    href: routes.resort.employees,
+    icon: <PiUsers />,
   },
   {
     name: "Notification Management",

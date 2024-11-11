@@ -102,6 +102,7 @@ export interface CalendarEvent {
   status?: string;
   resortId: number;
   resortIdentifier?: number;
+  color?: string;
 }
 
 export interface FlightingCardProps {

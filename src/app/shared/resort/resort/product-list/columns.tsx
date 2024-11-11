@@ -241,12 +241,12 @@ export const getColumns = ({
             <PencilIcon className="h-4 w-4" />
           </Button>
         </Tooltip>
-        <DeletePopover
+        {/* <DeletePopover
           id={row.resortIdentifier}
           title={`resort`}
           description={`Are you sure you want to delete this #${row.resortIdentifier} Resort?`}
           onDeleteItem={onDeleteItem}
-        />
+        /> */}
       </div>
     ),
   },
